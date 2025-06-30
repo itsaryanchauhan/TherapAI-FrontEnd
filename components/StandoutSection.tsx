@@ -8,12 +8,17 @@ const StandoutSection = () => {
   const sectionRef = useRef(null) // New ref for the whole section
   const textRef = useRef(null)
   const [isMobile, setIsMobile] = useState(false)
+  const [isClient, setIsClient] = useState(false)
   const delay = 0.04
 
   useEffect(() => {
+    setIsClient(true)
     const handleResize = () => {
       setIsMobile(window.innerWidth < 500)
     }
+    handleResize() // Set initial value
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
   }, [])
   const isInView = useInView(sectionRef, {
     once: true,

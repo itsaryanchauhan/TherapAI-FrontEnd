@@ -69,6 +69,7 @@ const ConnectorLine: React.FC<ConnectorLineProps> = ({
 export default function SocialGrowthComponent() {
   const elevatedItems = [2, 6, 13, 5, 17];
   const [isMobile, setIsMobile] = useState(false);
+  const [isClient, setIsClient] = useState(false);
   const centerIndex = 9; // Center box index for user profile
   const mobileCenterIndex = 6; // Center box index for mobile
   const mobileElevatedItems = [0, 3, 8, 11]; // Mobile elevated items
@@ -76,6 +77,7 @@ export default function SocialGrowthComponent() {
 
   useEffect(() => {
     // Check for mobile viewport on mount and resize
+    setIsClient(true)
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };

@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Audiowide, Montserrat } from "next/font/google";
-import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -39,11 +38,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${audiowide.variable} ${montserrat.variable} antialiased  bg-[#121212]`}
+        className={`${geistSans.variable} ${geistMono.variable} ${audiowide.variable} ${montserrat.variable} antialiased bg-[#121212]`}
+        suppressHydrationWarning={true}
       >
-        <ClerkProvider publishableKey="pk_test_ZGVhci1waWdsZXQtMzAuY2xlcmsuYWNjb3VudHMuZGV2JA">
-          {children}
-        </ClerkProvider>
+        {children}
       </body>
     </html>
   );

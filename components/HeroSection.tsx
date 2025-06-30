@@ -14,39 +14,32 @@ import { AnimatePresence, motion } from 'framer-motion'
 import BlurFade from "./magicui/blur-fade"
 import { InteractiveHoverButton } from "@/components/magicui/interactive-hover-button";
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useUser } from '@clerk/nextjs';
-import AuthModal from './AuthModal';
-import useStore from '@/app/store/store';
 
 function HeroSection() {
-  const { user } = useUser();
   const searchParams = useSearchParams();
-  const { isAuthModalOpen, setIsAuthModalOpen } = useStore();
-  let auth = null
 
   useEffect(() => {
-    auth = searchParams.get('auth');
-    if (auth) {
-      setIsAuthModalOpen(true);
-    }
+    // Remove any auth-related search params handling since we don't need authentication
   }, [searchParams]);
 
   const delay = 0.08
   const [isMobile, setIsMobile] = useState(false)
+  const [isClient, setIsClient] = useState(false)
   const router = useRouter();
+  
   useEffect(() => {
+    setIsClient(true)
     const handleResize = () => {
       setIsMobile(window.innerWidth < 500)
     }
+    handleResize() // Set initial value
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
   }, [])
 
   useLenis()
   return (
     <div className="w-full min-h-screen items-center flex justify-center flex-col  relative overflow-hidden bg-blue-900/30">
-
-      <AnimatePresence>
-        <AuthModal auth={auth} isAuthModalOpen={isAuthModalOpen} setIsAuthModalOpen={setIsAuthModalOpen} />
-      </AnimatePresence>
 
       <motion.div initial={{ opacity: 0, y: 10, filter: "blur(8px)" }}
         animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
@@ -60,7 +53,7 @@ function HeroSection() {
       <div className='w-full  md:w-[80%]    relative h-auto pt-[8vh] md:pt-[12vh]  flex py-8 md:py-16 lg:py-24 items-center flex-col rounded-br-[6vw] md:rounded-br-[3vw] overflow-hidden'>
 
         <BlurFade delay={delay * 1} className="w-full h-full absolute top-0 left-0">
-          <Particles count={isMobile ? 20 : 35} maxSize={5} />
+          <Particles count={isClient ? (isMobile ? 20 : 35) : 35} maxSize={5} />
         </BlurFade>
 
         <BlurFade delay={delay * 3} className="w-fit h-fit ">
@@ -146,7 +139,7 @@ function HeroSection() {
 
       <div className='w-[90%] sm:w-[70%] md:w-[60%] lg:w-[50%] h-auto py-10 md:h-[20vh] relative mt-12 sm:mt-18 md:mt-24 flex flex-col items-center justify-center px-4'>
         <BlurFade delay={delay * 12} className="absolute w-[80vw] md:w-[30vw] h-[30vh] mb-8">
-          <Particles count={isMobile ? 20 : 35} maxSize={3} />
+          <Particles count={isClient ? (isMobile ? 20 : 35) : 35} maxSize={3} />
         </BlurFade>
         <motion.div
           initial={{ opacity: 0 }}

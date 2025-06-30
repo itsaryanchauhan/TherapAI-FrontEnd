@@ -5,8 +5,6 @@ import { create } from 'zustand'
 interface Store {
     Hovered : null | "Right" | "Left",
     setHovered : (hovered : "Right" | "Left" | null) => void,
-    isAuthModalOpen : boolean,
-    setIsAuthModalOpen : (isAuthModalOpen : boolean) => void,
     minicText : string,
     setMinicText : (minicText : string) => void,
     trendText : string,
@@ -18,9 +16,6 @@ interface Store {
 const useStore = create<Store>((set) => ({
     Hovered : null,
     setHovered : (hovered : "Right" | "Left" | null) => set({ Hovered : hovered }),
-    isAuthModalOpen : false,
-    setIsAuthModalOpen : (isAuthModalOpen : boolean) => set({ isAuthModalOpen : isAuthModalOpen }),
-
 
     minicText : "",
     setMinicText : (minicText : string) => set({ minicText : minicText }),
